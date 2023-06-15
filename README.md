@@ -12,17 +12,20 @@ Drugim rečima, svaki mikrokontroler će primiti poruku poslatu sa jednog od nji
 # Način rada
 ```
 Ovaj projekat predstavlja način komunikacije između više Arduino UNO mikrokontrolera koristeći nRF24L01 transciever module.
-Postavlja se jednostavan sistem slanja poruka gde jedan Arduino šalje poruke drugima.
+Postavlja se jednostavan sistem slanja poruka gde svaki Arduino može da komunicira sa ostalima.
 Na početku potrebno je skinuti potrebne biblioteke RF24 i nRF24L01. Pored toga, definišu se RF24 objekat radi specificiranja CE i CSN
-pinova, kao i niz koji adrese komunikacionih kanala. Radi skladištenja poruka, kreiran je i niz koji ima ulogu buffer-a.
+pinova, kao i niz koji sadrži adrese komunikacionih kanala. Radi skladištenja poruka, kreiran je i niz koji ima ulogu buffer-a.
 
 U setup funkciji otvaramo kanale u režimu čitanja i pisanja preko kojih moduli komuniciraju serijski.
 
 Loop funkcija se sastoji iz 2 dela:
-1. - U prvi deo pokriva slučaj kada se poruka primi. U tom slučaju poruka biva ispisana na serijski
+1. - Prvi deo pokriva slučaj kada se poruka primi. U tom slučaju poruka biva ispisana na serijski
 monitor i u zavisnosti od 'shouldEcho' flag-a, poruka se prenosi i drugim modulima izmenom kanala za pisanje. Ovo se radi da bi se
 izbegla kolizija poruka, i da neki modul ne bi primio istu poruku više puta.
-2. - Drugi deo pokriva slučaj kada korisnik unese poruku preko serijskog monitora da bi se slala drugim modulima. Uneta poruka biva pročitana, nakon čega se uklone prazna mesta sa početka i kraja poruke. Zatim, postavlja se 'shouldEcho' flag na true, zaustavlja se režim slušanja i preko petlje gde se menjaju kanali za pisanje, poruka se šalje svim ostalim modulima. Režim slušanja se ovde prekida zato što transciever ne može da sluša i da šalje poruke u isto vreme.
+2. - Drugi deo pokriva slučaj kada korisnik unese poruku preko serijskog monitora da bi se slala drugim modulima. Uneta poruka biva
+pročitana, nakon čega se uklone prazna mesta sa početka i kraja poruke. Zatim, postavlja se 'shouldEcho' flag na true, zaustavlja se
+režim slušanja i preko petlje gde se menjaju kanali za pisanje, poruka se šalje svim ostalim modulima. Režim slušanja se ovde prekida
+zato što transciever ne može da sluša i da šalje poruke u isto vreme.
 
 ```
 
